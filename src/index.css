@@ -23,6 +23,58 @@ body {
   /* Light playful background */
 }
 
+@media print {
+
+  /* Hide everything except the grid */
+  header,
+  aside,
+  .fixed,
+  .hidden-print {
+    display: none !important;
+  }
+
+  /* Reset layout */
+  body,
+  main,
+  div {
+    display: block !important;
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* Center the printable area */
+  main {
+    display: flex !important;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20mm !important;
+  }
+
+  /* Force 1:1 Scale for Grid - Pyssla/Hama beads are ~5mm */
+  /* We target the grid container and its cells using Tailwind classes logic or structure */
+  .inline-grid {
+    box-shadow: none !important;
+    border: none !important;
+    gap: 0 !important;
+    /* Beads touch? Or barely gap? Usually 5mm pitch. */
+  }
+
+  /* Enforce exact 5mm cells */
+  .inline-grid>div {
+    width: 5mm !important;
+    height: 5mm !important;
+    border-radius: 50% !important;
+    /* Make them round for guide circles? Or sticking to square per app style? keeping square for now as app shows squares. */
+    border: 0.1mm solid #ddd;
+    /* Light guide lines */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
 #root {
   width: 100%;
   height: 100%;

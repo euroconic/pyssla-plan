@@ -111,7 +111,10 @@ function App() {
           >
             <FolderOpen size={18} /> Load
           </button>
-          <button className="px-4 py-2 bg-green-500 text-white font-bold rounded-full hover:scale-105 active:scale-95 transition-transform shadow-sm hidden md:block">
+          <button
+            onClick={() => window.print()}
+            className="px-4 py-2 bg-green-500 text-white font-bold rounded-full hover:scale-105 active:scale-95 transition-transform shadow-sm hidden md:block"
+          >
             Print
           </button>
           <button
@@ -138,8 +141,8 @@ function App() {
                   key={board.id}
                   onClick={() => handleBoardChange(board)}
                   className={`flex-1 p-2 rounded-lg text-sm font-bold flex flex-col items-center gap-1 transition-all border-2 ${currentBoard.id === board.id
-                      ? (board.id === 'small' ? 'bg-blue-500 border-blue-600 text-white' : 'bg-gray-800 border-gray-900 text-white')
-                      : 'bg-white border-transparent text-gray-500 hover:bg-gray-100'
+                    ? (board.id === 'small' ? 'bg-blue-500 border-blue-600 text-white' : 'bg-gray-800 border-gray-900 text-white')
+                    : 'bg-white border-transparent text-gray-500 hover:bg-gray-100'
                     }`}
                 >
                   {board.icon}
