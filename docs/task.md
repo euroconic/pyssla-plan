@@ -1,0 +1,37 @@
+# Task List: Pyssla Plan App
+
+- [x] Research Competitors & Existing Solutions
+    - [x] Search for existing Perler/Hama/Pyssla bead apps
+    - [x] Analyze features of top competitors
+    - [x] Identify gaps and opportunities for a kid-friendly app
+- [x] Define Core Features & MVP
+    - [x] Outline user stories for kids
+    - [x] Define UI/UX requirements (Simple, Large buttons, IKEA Palette)
+    - [x] Mobile/Tablet Compatibility (Responsive, Touch-friendly)
+    - [x] AI Feature: Voice/Text Input -> Generate 5 Pattern Ideas
+- [x] Technical Planning
+    - [x] Choose tech stack: Vite + React (Best for interactive grid state)
+    - [x] Design data model (2D Array + Metadata)
+    - [x] Plan Touch Events implementation (prevent scroll on grid)
+    - [x] Plan AI Integration (Web Speech API + OpenAI/Gemini Image Gen)
+- [x] Implementation - Phase 1: The Grid
+    - [x] Initialize Vite Project
+    - [x] Create interactive Bead Grid (Click to paint)
+    - [x] Implement IKEA Pyssla Color Palette
+    - [x] Basic "Erase" / "Fill" tools
+- [/] Implementation - Phase 2: AI & Logic
+    - [/] Build "Magic Idea" (Voice Input Component)
+    - [x] Implement Mock AI Generation (Simulate DALL-E response)
+    - [x] Implement Save/Load (JSON format for project data)
+    - [x] Board Selector (Switch between 29x29, 15x15, etc.)
+    - [ ] Add "1:1 Scale" Export (Printable PDF/Image)
+- [ ] Implementation - Phase 3: Cloud Library (The Plan)
+    - [ ] Setup Supabase (Free Tier PostgreSQL)
+    - [ ] Create `patterns` table (stores JSON grid data)
+    - [ ] Implement "Publish to Library" (Input Name + Kid Name)
+    - [ ] Build "Browse Community" Gallery
+    - [ ] **Social Features:**
+        - [ ] Track & Display "Views" (Visitor Counter)
+        - [ ] Track "Downloads/Prints"
+        - [ ] Track "Remixes" (Forking a design)
+    - [ ] Add "Like/Fork" functionality

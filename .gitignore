@@ -121,3 +121,4 @@ dist
 # Pyssla Plan specifics
 *.pyssla
 scripts/
+*.zip
