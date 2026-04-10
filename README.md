@@ -1,6 +1,6 @@
 # Pyssla Plan 🎨
 
-An AI-powered, kid-friendly pattern builder for IKEA Pyssla and Hama beads.
+A kid-friendly pattern builder for IKEA Pyssla and Hama beads.
 
 ## 🚀 Overview
 
