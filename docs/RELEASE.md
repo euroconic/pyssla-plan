@@ -5,7 +5,7 @@
 ## v1.0.0 - 2026-04-10 - MVP Release
 
 **Built by**: Andrew Tomin with Claude Code
-**Test artwork by**: Arthur Tomin (7 y.o.)
+**Test artwork by**: Arthur (7 y.o.)
 
 ### What shipped
 
