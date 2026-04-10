@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Palette, Eraser, PaintBucket, Undo, Trash2, FolderOpen, Save, Grid3X3, Maximize, Pencil, Check } from 'lucide-react';
 import Grid from './components/Grid';
 import LegalModal from './components/LegalModal';
+import SessionTimer from './components/SessionTimer';
 import { PYSSLA_COLORS, GRID_SIZE as DEFAULT_SIZE } from './utils/colors';
 import { DEFAULT_PATTERN } from './utils/defaultPattern';
 
@@ -129,6 +130,9 @@ function App() {
           <a href="https://www.linkedin.com/in/andrew-tomin-senior-product-manager/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition-colors">LinkedIn</a>
           <a href="https://github.com/euroconic" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">GitHub</a>
           <button onClick={() => setShowLegal(true)} className="hover:text-gray-900 transition-colors">Privacy & Safety</button>
+        </div>
+        <div className="relative">
+          <SessionTimer />
         </div>
         <div className="flex gap-2">
           <input
