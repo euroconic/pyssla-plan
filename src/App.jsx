@@ -4,6 +4,10 @@ import Grid from './components/Grid';
 import { PYSSLA_COLORS, GRID_SIZE as DEFAULT_SIZE } from './utils/colors';
 import { DEFAULT_PATTERN } from './utils/defaultPattern';
 
+const track = (event, value) => {
+  if (window.clarity) window.clarity('set', event, value || 'true');
+};
+
 const BOARDS = [
   { id: 'large', name: 'Large Square (29x29)', size: 29, icon: <Maximize size={20} /> },
   { id: 'small', name: 'Blue Square (18x18)', size: 18, icon: <Grid3X3 size={20} />, color: 'bg-blue-100 text-blue-700' },
@@ -46,11 +50,13 @@ function App() {
       setPatternName('Untitled');
       historyRef.current = [];
       setCanUndo(false);
+      track('board_change', board.name);
     }
   };
 
   const handleClear = () => {
     if (window.confirm('Are you sure you want to clear the whole design?')) {
+      track('clear_board');
       historyRef.current.push(grid);
       setCanUndo(true);
       setGrid(Array(currentBoard.size).fill(null).map(() => Array(currentBoard.size).fill('#FFFFFF')));
@@ -59,6 +65,7 @@ function App() {
   };
 
   const handleSave = () => {
+    track('save_pattern', patternName);
     const data = JSON.stringify({ grid, boardId: currentBoard.id, name: patternName, version: 1 });
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -93,6 +100,7 @@ function App() {
           if (data.name) setPatternName(data.name);
           historyRef.current = [];
           setCanUndo(false);
+          track('load_pattern', data.name || 'unnamed');
         } else {
           alert('Invalid file format');
         }
@@ -135,6 +143,7 @@ function App() {
           </button>
           <button
             onClick={() => {
+              track('print_pattern', patternName);
               const prev = document.title;
               document.title = patternName || 'Untitled';
               window.print();
