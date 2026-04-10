@@ -113,6 +113,76 @@ const LegalModal = ({ onClose }) => {
           </section>
 
           <section>
+            <h3 className="text-base font-bold text-gray-900 mb-2">Screen Time & Digital Health</h3>
+            <p>
+              Excessive screen time in children is linked to measurable developmental and health risks.
+              As parents, we built this app to move kids <strong>off the screen and onto the pegboard</strong> as fast as possible.
+              Here is what the research says:
+            </p>
+
+            <h4 className="font-semibold text-gray-800 mt-3">Known risks of excessive screen time</h4>
+            <ul className="list-disc pl-5 space-y-1 mt-1">
+              <li><strong>Vision:</strong> Increased risk of myopia (nearsightedness). Studies show 30%+ higher myopia rates in children with 3+ hours daily screen use.</li>
+              <li><strong>Sleep:</strong> Blue light suppresses melatonin. Screens before bed delay sleep onset by 30-60 minutes on average.</li>
+              <li><strong>Attention:</strong> Fast-paced digital content is correlated with reduced sustained attention span. The American Academy of Pediatrics notes attention difficulties in high-screen-time children.</li>
+              <li><strong>Motor development:</strong> Screen time displaces physical play, fine motor practice, and outdoor activity critical for ages 4-10.</li>
+              <li><strong>Social skills:</strong> Passive screen consumption reduces face-to-face interaction time needed for emotional and social development.</li>
+              <li><strong>Posture:</strong> Extended device use leads to neck strain, poor posture, and repetitive stress in developing bodies.</li>
+              <li><strong>Obesity:</strong> WHO links sedentary screen time to increased childhood obesity risk.</li>
+            </ul>
+
+            <h4 className="font-semibold text-gray-800 mt-3">Recommended daily screen time limits by age</h4>
+            <p className="text-xs text-gray-500 mt-1 mb-2">Sources: WHO (2019), American Academy of Pediatrics (AAP), Royal College of Paediatrics (RCPCH)</p>
+            <div className="border rounded-lg overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="px-3 py-2 text-left font-semibold">Age</th>
+                    <th className="px-3 py-2 text-left font-semibold">Max screen time</th>
+                    <th className="px-3 py-2 text-left font-semibold">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="px-3 py-2">Under 2</td>
+                    <td className="px-3 py-2 font-bold text-red-600">None</td>
+                    <td className="px-3 py-2">No screen time recommended (WHO)</td>
+                  </tr>
+                  <tr className="border-t bg-gray-50">
+                    <td className="px-3 py-2">2-3 years</td>
+                    <td className="px-3 py-2 font-bold text-orange-600">Under 1 hour</td>
+                    <td className="px-3 py-2">Less is better. Only with caregiver co-viewing</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="px-3 py-2">4-5 years</td>
+                    <td className="px-3 py-2 font-bold text-yellow-600">Max 1 hour</td>
+                    <td className="px-3 py-2">Interactive/creative preferred over passive. Supervised</td>
+                  </tr>
+                  <tr className="border-t bg-gray-50">
+                    <td className="px-3 py-2">6-10 years</td>
+                    <td className="px-3 py-2 font-bold text-blue-600">1-2 hours</td>
+                    <td className="px-3 py-2">Consistent limits. Balance with 60+ min physical activity</td>
+                  </tr>
+                  <tr className="border-t">
+                    <td className="px-3 py-2">11-13 years</td>
+                    <td className="px-3 py-2 font-bold text-gray-600">2 hours</td>
+                    <td className="px-3 py-2">No screens 1 hour before sleep. Family media plan</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 className="font-semibold text-gray-800 mt-3">Our recommendation for Pyssla Plan</h4>
+            <ul className="list-disc pl-5 space-y-1 mt-1">
+              <li><strong>15-30 minutes max</strong> for digital pattern planning</li>
+              <li>Then <strong>print the template</strong> and switch to physical bead placement</li>
+              <li>The real developmental value (pincer grasp, patience, focus) comes from the <strong>physical activity</strong>, not the screen</li>
+              <li>Use the app together - co-creation with a parent or sibling adds social value</li>
+              <li>No notifications, no infinite scroll, no autoplay - we designed this app to be <strong>easy to put down</strong></li>
+            </ul>
+          </section>
+
+          <section>
             <h3 className="text-base font-bold text-gray-900 mb-2">Contact</h3>
             <p>
               For privacy concerns or questions, contact the developer via{' '}
