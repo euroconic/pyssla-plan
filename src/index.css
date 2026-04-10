@@ -33,10 +33,9 @@ body {
     display: none !important;
   }
 
-  /* Reset layout */
+  /* Reset layout — but preserve .inline-grid display */
   body,
-  main,
-  div {
+  main {
     display: block !important;
     background: white !important;
     margin: 0 !important;
@@ -45,12 +44,18 @@ body {
     height: auto !important;
   }
 
-  /* Center the printable area */
   main {
     display: flex !important;
     justify-content: center;
     align-items: flex-start;
     padding-top: 20mm !important;
+  }
+
+  main > div {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
   }
 
   /* Force 1:1 Scale for Grid - Pyssla/Hama beads are ~5mm */

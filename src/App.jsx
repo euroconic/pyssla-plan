@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Palette, Eraser, PaintBucket, Undo, Sparkles, Trash2, FolderOpen, Save, Grid3X3, Maximize } from 'lucide-react';
+import { Palette, Eraser, PaintBucket, Undo, Trash2, FolderOpen, Save, Grid3X3, Maximize, Pencil, Check } from 'lucide-react';
 import Grid from './components/Grid';
-import MagicGenerator from './components/MagicGenerator';
 import { PYSSLA_COLORS, GRID_SIZE as DEFAULT_SIZE } from './utils/colors';
+import { DEFAULT_PATTERN } from './utils/defaultPattern';
 
 const BOARDS = [
   { id: 'large', name: 'Large Square (29x29)', size: 29, icon: <Maximize size={20} /> },
@@ -12,24 +12,30 @@ const BOARDS = [
 function App() {
   const [selectedColor, setSelectedColor] = useState(PYSSLA_COLORS[0].hex);
   const [tool, setTool] = useState('pencil'); // pencil, eraser, bucket
-  const [showMagicMaker, setShowMagicMaker] = useState(false);
   const [currentBoard, setCurrentBoard] = useState(BOARDS[0]);
+  const [patternName, setPatternName] = useState('Arthur\'s Creation');
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [canUndo, setCanUndo] = useState(false);
   const fileInputRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const historyRef = useRef([]);
+  const MAX_UNDO = 50;
 
-  // Lifted Grid State
-  const [grid, setGrid] = useState(
-    Array(DEFAULT_SIZE).fill(null).map(() => Array(DEFAULT_SIZE).fill('#FFFFFF'))
-  );
-
-  const handleMagicPatternSelect = (patternData) => {
-    // Check if pattern fits logic or resize? Currently assumes 29x29
-    // For MVP we just overwrite. Ideally we might want to check params.
-    setGrid(patternData.grid);
-    setShowMagicMaker(false);
-  };
+  // Lifted Grid State — default loads Arthur's example pattern
+  const [grid, setGrid] = useState(DEFAULT_PATTERN);
 
   const handleGridChange = (newGrid) => {
+    historyRef.current.push(grid);
+    if (historyRef.current.length > MAX_UNDO) historyRef.current.shift();
+    setCanUndo(true);
     setGrid(newGrid);
+  };
+
+  const handleUndo = () => {
+    if (historyRef.current.length === 0) return;
+    const prev = historyRef.current.pop();
+    setCanUndo(historyRef.current.length > 0);
+    setGrid(prev);
   };
 
   const handleBoardChange = (board) => {
@@ -37,22 +43,28 @@ function App() {
     if (window.confirm('Changing board size will clear your current design. Continue?')) {
       setCurrentBoard(board);
       setGrid(Array(board.size).fill(null).map(() => Array(board.size).fill('#FFFFFF')));
+      setPatternName('Untitled');
+      historyRef.current = [];
+      setCanUndo(false);
     }
   };
 
   const handleClear = () => {
     if (window.confirm('Are you sure you want to clear the whole design?')) {
+      historyRef.current.push(grid);
+      setCanUndo(true);
       setGrid(Array(currentBoard.size).fill(null).map(() => Array(currentBoard.size).fill('#FFFFFF')));
+      setPatternName('Untitled');
     }
   };
 
   const handleSave = () => {
-    const data = JSON.stringify({ grid, boardId: currentBoard.id, version: 1 });
+    const data = JSON.stringify({ grid, boardId: currentBoard.id, name: patternName, version: 1 });
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `pyssla-pattern-${Date.now()}.pyssla`;
+    link.download = `${patternName || 'Untitled'}.pyssla`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -78,10 +90,13 @@ function App() {
 
           setCurrentBoard(matchedBoard);
           setGrid(data.grid);
+          if (data.name) setPatternName(data.name);
+          historyRef.current = [];
+          setCanUndo(false);
         } else {
           alert('Invalid file format');
         }
-      } catch (err) {
+      } catch {
         alert('Error loading file');
       }
     };
@@ -96,6 +111,13 @@ function App() {
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-yellow-500 animate-pulse"></div>
           <h1 className="text-2xl font-black tracking-tight text-blue-600">Pyssla Plan</h1>
+        </div>
+        <div className="flex items-center gap-3 text-sm text-gray-500">
+          <span>by Andrew Tomin</span>
+          <a href="https://andrewtomin.substack.com/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">Substack</a>
+          <a href="https://t.me/productiz" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">Telegram</a>
+          <a href="https://www.linkedin.com/in/andrew-tomin-senior-product-manager/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition-colors">LinkedIn</a>
+          <a href="https://github.com/euroconic" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">GitHub</a>
         </div>
         <div className="flex gap-2">
           <input
@@ -112,7 +134,12 @@ function App() {
             <FolderOpen size={18} /> Load
           </button>
           <button
-            onClick={() => window.print()}
+            onClick={() => {
+              const prev = document.title;
+              document.title = patternName || 'Untitled';
+              window.print();
+              document.title = prev;
+            }}
             className="px-4 py-2 bg-green-500 text-white font-bold rounded-full hover:scale-105 active:scale-95 transition-transform shadow-sm hidden md:block"
           >
             Print
@@ -130,7 +157,7 @@ function App() {
       <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative z-0">
 
         {/* Left Toolbar (Palette & Tools) */}
-        <aside className="w-full md:w-64 bg-white shadow-lg z-20 flex flex-col p-4 md:h-full overflow-y-auto order-2 md:order-1">
+        <aside className="w-full md:w-80 bg-white shadow-lg z-20 flex flex-col p-4 md:h-full overflow-y-auto order-2 md:order-1">
 
           {/* Board Selector */}
           <div className="mb-6 bg-gray-50 p-3 rounded-xl">
@@ -175,7 +202,11 @@ function App() {
             >
               <PaintBucket size={24} />
             </button>
-            <button className="p-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600" title="Undo (Not implemented)">
+            <button
+              onClick={handleUndo}
+              className={`p-3 rounded-xl transition-all ${canUndo ? 'bg-gray-100 hover:bg-gray-200 text-gray-600' : 'bg-gray-50 text-gray-300 cursor-not-allowed'}`}
+              title="Undo"
+            >
               <Undo size={24} />
             </button>
             <button
@@ -190,7 +221,7 @@ function App() {
           <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 text-center md:text-left">Bead Colors</h3>
 
           {/* Color List */}
-          <div className="grid grid-cols-5 md:grid-cols-2 gap-3 pb-24 md:pb-0">
+          <div className="grid grid-cols-5 md:grid-cols-3 gap-3 pb-24 md:pb-0">
             {PYSSLA_COLORS.map((color) => (
               <button
                 key={color.hex}
@@ -208,7 +239,41 @@ function App() {
         </aside>
 
         {/* Center Canvas */}
-        <div className="flex-1 bg-gray-100 flex items-center justify-center p-4 overflow-auto touch-pan-x touch-pan-y relative order-1 md:order-2">
+        <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 overflow-auto touch-pan-x touch-pan-y relative order-1 md:order-2">
+          {/* Editable Pattern Name */}
+          <div className="flex items-center gap-2 mb-3">
+            {isEditingName ? (
+              <>
+                <input
+                  ref={nameInputRef}
+                  type="text"
+                  value={patternName}
+                  onChange={(e) => setPatternName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') setIsEditingName(false); }}
+                  className="text-lg font-bold text-gray-700 bg-white border-2 border-blue-400 rounded-lg px-3 py-1 outline-none focus:border-blue-600"
+                  autoFocus
+                />
+                <button
+                  onClick={() => setIsEditingName(false)}
+                  className="p-1 rounded-lg hover:bg-green-100 text-green-600 transition-colors"
+                  title="Confirm name"
+                >
+                  <Check size={18} />
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-lg font-bold text-gray-700">{patternName}</h2>
+                <button
+                  onClick={() => setIsEditingName(true)}
+                  className="p-1 rounded-lg hover:bg-blue-100 text-gray-400 hover:text-blue-600 transition-colors"
+                  title="Edit name"
+                >
+                  <Pencil size={16} />
+                </button>
+              </>
+            )}
+          </div>
           <div className="bg-white p-4 rounded-xl shadow-2xl">
             <Grid
               grid={grid}
@@ -220,22 +285,6 @@ function App() {
         </div>
 
       </main>
-
-      {/* Magic Fab */}
-      <button
-        onClick={() => setShowMagicMaker(true)}
-        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center text-white animate-bounce hover:animate-none hover:scale-110 transition-transform z-50 border-4 border-white"
-      >
-        <Sparkles size={36} />
-      </button>
-
-      {/* Magic Modal */}
-      {showMagicMaker && (
-        <MagicGenerator
-          onSelectPattern={handleMagicPatternSelect}
-          onClose={() => setShowMagicMaker(false)}
-        />
-      )}
 
     </div>
   );
