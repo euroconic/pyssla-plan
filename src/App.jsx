@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Palette, Eraser, PaintBucket, Undo, Trash2, FolderOpen, Save, Grid3X3, Maximize, Pencil, Check } from 'lucide-react';
 import Grid from './components/Grid';
+import LegalModal from './components/LegalModal';
 import { PYSSLA_COLORS, GRID_SIZE as DEFAULT_SIZE } from './utils/colors';
 import { DEFAULT_PATTERN } from './utils/defaultPattern';
 
@@ -19,6 +20,7 @@ function App() {
   const [currentBoard, setCurrentBoard] = useState(BOARDS[0]);
   const [patternName, setPatternName] = useState('Arthur\'s Creation');
   const [isEditingName, setIsEditingName] = useState(false);
+  const [showLegal, setShowLegal] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
   const fileInputRef = useRef(null);
   const nameInputRef = useRef(null);
@@ -126,6 +128,7 @@ function App() {
           <a href="https://t.me/productiz" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition-colors">Telegram</a>
           <a href="https://www.linkedin.com/in/andrew-tomin-senior-product-manager/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition-colors">LinkedIn</a>
           <a href="https://github.com/euroconic" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">GitHub</a>
+          <button onClick={() => setShowLegal(true)} className="hover:text-gray-900 transition-colors">Privacy & Safety</button>
         </div>
         <div className="flex gap-2">
           <input
@@ -295,6 +298,7 @@ function App() {
 
       </main>
 
+      {showLegal && <LegalModal onClose={() => setShowLegal(false)} />}
     </div>
   );
 }
