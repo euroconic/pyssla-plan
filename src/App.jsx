@@ -258,12 +258,12 @@ function App() {
                   type="text"
                   value={patternName}
                   onChange={(e) => setPatternName(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') setIsEditingName(false); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter') { setIsEditingName(false); track('rename_pattern', patternName); } }}
                   className="text-lg font-bold text-gray-700 bg-white border-2 border-blue-400 rounded-lg px-3 py-1 outline-none focus:border-blue-600"
                   autoFocus
                 />
                 <button
-                  onClick={() => setIsEditingName(false)}
+                  onClick={() => { setIsEditingName(false); track('rename_pattern', patternName); }}
                   className="p-1 rounded-lg hover:bg-green-100 text-green-600 transition-colors"
                   title="Confirm name"
                 >
