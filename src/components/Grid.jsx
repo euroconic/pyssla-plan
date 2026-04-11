@@ -74,7 +74,7 @@ const Grid = ({ grid, onGridChange, selectedColor, tool }) => {
                 row.map((color, cIndex) => (
                     <div
                         key={`${rIndex}-${cIndex}`}
-                        className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:opacity-90 transition-opacity duration-75"
+                        className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer hover:opacity-90 transition-opacity duration-75"
                         style={{ backgroundColor: color }}
                         onMouseDown={(e) => {
                             e.preventDefault(); // Prevent text selection/drag weirdness
